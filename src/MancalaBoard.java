@@ -6,18 +6,17 @@ import javax.swing.event.ChangeListener;
 
 
 public class MancalaBoard extends JPanel implements ChangeListener {
-
     private MancalaModel model;
-    private BoardStyle   style;
+    private BoardStyle style;
 
-    private static final int MANCALA_W  = 95;
-    private static final int MANCALA_H  = 210;
-    private static final int PIT_W      = 92;
-    private static final int PIT_H      = 92;
-    private static final int COL_GAP    = 6;
-    private static final int H_MARGIN   = 18;
-    private static final int V_MARGIN   = 28;
-    private static final int ROW_GAP    = 10;
+    private static final int MANCALA_W = 95;
+    private static final int MANCALA_H = 210;
+    private static final int PIT_W = 92;
+    private static final int PIT_H = 92;
+    private static final int COL_GAP = 6;
+    private static final int H_MARGIN = 18;
+    private static final int V_MARGIN = 28;
+    private static final int ROW_GAP = 10;
 
     private Rectangle[] pitRects = new Rectangle[14];
     private int hoveredPit = -1;
@@ -74,9 +73,7 @@ public class MancalaBoard extends JPanel implements ChangeListener {
         Rectangle mb = pitRects[MancalaModel.MANCALA_B];
         style.drawMancala(g2, mb.x, mb.y, mb.width, mb.height, board[MancalaModel.MANCALA_B], "B");
         Rectangle ma = pitRects[MancalaModel.MANCALA_A];
-        style.drawMancala(g2, ma.x, ma.y, ma.width, ma.height,
-                board[MancalaModel.MANCALA_A], "A");
-
+        style.drawMancala(g2, ma.x, ma.y, ma.width, ma.height, board[MancalaModel.MANCALA_A], "A");
 
         for (int col = 0; col < 6; col++) {
             int aIdx = col;
@@ -88,7 +85,7 @@ public class MancalaBoard extends JPanel implements ChangeListener {
             Rectangle rb = pitRects[bIdx];
             boolean bIsActive = (started && !over && curPlayer == 1);
             boolean bHovered  = (hoveredPit == bIdx);
-            int     bLabel    = 6 - col;
+            int bLabel    = 6 - col;
             style.drawPit(g2, rb.x, rb.y, rb.width, rb.height, board[bIdx], "B" + bLabel, bIsActive, bHovered);
         }
 

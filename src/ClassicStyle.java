@@ -15,19 +15,19 @@ public class ClassicStyle implements BoardStyle {
     @Override public String getStyleName() {
         return "Classic Wood";
     }
-    @Override public Color getBoardColor()   {
+    @Override public Color getBoardColor() {
         return BOARD_COLOR;
     }
-    @Override public Color getPitColor()     {
+    @Override public Color getPitColor() {
         return PIT_COLOR;
     }
-    @Override public Color getPitBorderColor(){
+    @Override public Color getPitBorderColor() {
         return PIT_BORDER;
     }
     @Override public Color getMancalaColor() {
         return MANCALA_COLOR;
     }
-    @Override public Color getStoneColor()   {
+    @Override public Color getStoneColor() {
         return STONE_COLOR;
     }
     @Override public Color getStoneAccentColor(){

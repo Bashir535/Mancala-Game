@@ -82,13 +82,13 @@ public class ClassicStyle implements BoardStyle {
         g2.setColor(LABEL_COLOR);
         FontMetrics fm = g2.getFontMetrics();
         g2.drawString("Mancala", x + (w - fm.stringWidth("Mancala")) / 2, y + 22);
-        g2.drawString(label, x + (w - fm.stringWidth(label)) / 2, y + 38);
+        g2.drawString(label, x + (w - fm.stringWidth(label)) / 2, y + 35);
 
         g2.setFont(getMancalaFont());
         g2.setColor(STONE_COLOR);
         fm = g2.getFontMetrics();
         String count = String.valueOf(stones);
-        g2.drawString(count, x + (w - fm.stringWidth(count)) / 2, y + h / 2 + 10);
+        g2.drawString(count, x + (w - fm.stringWidth(count)) / 2, y + h / 2 - 3);
 
         drawStonesInMancala(g2, x, y, w, h, stones);
     }
@@ -97,7 +97,7 @@ public class ClassicStyle implements BoardStyle {
             return;
         int cx = x + w / 2;
         int cy = y + h / 2;
-        int r = 6;
+        int r = 7;
         int[][] offsets = getStonePitOffsets(stones);
         for (int[] off : offsets) {
             int sx = cx + off[0];

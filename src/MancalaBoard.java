@@ -85,7 +85,7 @@ public class MancalaBoard extends JPanel implements ChangeListener {
             Rectangle rb = pitRects[bIdx];
             boolean bIsActive = (started && !over && curPlayer == 1);
             boolean bHovered  = (hoveredPit == bIdx);
-            int bLabel    = 6 - col;
+            int bLabel = 6 - col;
             style.drawPit(g2, rb.x, rb.y, rb.width, rb.height, board[bIdx], "B" + bLabel, bIsActive, bHovered);
         }
 

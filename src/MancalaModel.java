@@ -12,13 +12,13 @@ public class MancalaModel {
     private int[] board;
     private int[] previousBoard;
     private int previousPlayer;
-    private int previousUndoCount;
 
     private int currentPlayer;
     private boolean gameStarted;
     private boolean gameOver;
-    private int undoCountThisTurn;
+    private int[] undoCountThisTurn;
     private boolean canUndo;
+    
 
     private ArrayList<ChangeListener> listeners;
 
@@ -26,6 +26,7 @@ public class MancalaModel {
         board = new int[TOTAL_PITS];
         previousBoard = new int[TOTAL_PITS];
         listeners = new ArrayList<>();
+        undoCountThisTurn = new int[2];
         resetState();
     }
 
@@ -33,10 +34,9 @@ public class MancalaModel {
         currentPlayer = 0;
         gameStarted = false;
         gameOver = false;
-        undoCountThisTurn = 0;
+        undoCountThisTurn = new int[2];
         canUndo = false;
         previousPlayer = 0;
-        previousUndoCount = 0;
     }
 
     public void addChangeListener(ChangeListener l) {
@@ -66,7 +66,6 @@ public class MancalaModel {
 
         System.arraycopy(board, 0, previousBoard, 0, TOTAL_PITS);
         previousPlayer = currentPlayer;
-        previousUndoCount = undoCountThisTurn;
 
         int stones = board[pitIndex];
         board[pitIndex] = 0;
@@ -99,7 +98,7 @@ public class MancalaModel {
         }
         if (!freeTurn) {
             currentPlayer = 1 - currentPlayer;
-            undoCountThisTurn = 0;
+            undoCountThisTurn[currentPlayer] = 0;
         }
         canUndo = true;
         notifyListeners();
@@ -107,11 +106,11 @@ public class MancalaModel {
     }
 
     public boolean undo() {
-        if (!canUndo || undoCountThisTurn >= 3)
+        if (!canUndo || undoCountThisTurn[previousPlayer] >= 3)
             return false;
         System.arraycopy(previousBoard, 0, board, 0, TOTAL_PITS);
         currentPlayer = previousPlayer;
-        undoCountThisTurn = previousUndoCount + 1;
+        undoCountThisTurn[currentPlayer]++;
         canUndo = false;
         notifyListeners();
         return true;
@@ -169,10 +168,10 @@ public class MancalaModel {
         return gameOver;
     }
     public boolean canUndo(){
-        return canUndo && undoCountThisTurn < 3;
+        return canUndo && undoCountThisTurn[previousPlayer] < 3;
     }
     public int getUndoCountThisTurn() {
-        return undoCountThisTurn;
+        return undoCountThisTurn[previousPlayer];
     }
 
     public int getWinner() {

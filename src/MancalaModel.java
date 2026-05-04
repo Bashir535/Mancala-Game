@@ -2,8 +2,10 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * MancalaModel class to store game data
+ */
 public class MancalaModel {
-
     public static final int PITS_PER_SIDE = 6;
     public static final int TOTAL_PITS = 14;
     public static final int MANCALA_A = 6;
@@ -18,10 +20,12 @@ public class MancalaModel {
     private boolean gameOver;
     private int[] undoCountThisTurn;
     private boolean canUndo;
-    
 
     private ArrayList<ChangeListener> listeners;
 
+    /**
+     * Default constructor
+     */
     public MancalaModel() {
         board = new int[TOTAL_PITS];
         previousBoard = new int[TOTAL_PITS];
@@ -30,6 +34,9 @@ public class MancalaModel {
         resetState();
     }
 
+    /**
+     * Resets the model's data
+     */
     private void resetState() {
         currentPlayer = 0;
         gameStarted = false;
@@ -39,15 +46,26 @@ public class MancalaModel {
         previousPlayer = 0;
     }
 
+    /**
+     * Adds a viewer to the model
+     * @param l ChangeListener viewer
+     */
     public void addChangeListener(ChangeListener l) {
         listeners.add(l);
     }
 
+    /**
+     * Notifies all viewers in listeners of a change
+     */
     private void notifyListeners() {
         ChangeEvent e = new ChangeEvent(this);
         for (ChangeListener l : listeners) l.stateChanged(e);
     }
 
+    /**
+     * Initiates pits with given stones per pit
+     * @param stonesPerPit stones per pit
+     */
     public void initBoard(int stonesPerPit) {
         for (int i = 0; i < TOTAL_PITS; i++)
             board[i] = (i == MANCALA_A || i == MANCALA_B) ? 0 : stonesPerPit;
@@ -56,6 +74,11 @@ public class MancalaModel {
         notifyListeners();
     }
 
+    /**
+     * Moves the stones of a given pit to the next pit
+     * @param pitIndex location of pit
+     * @return true if move is valid, false otherwise
+     */
     public boolean makeMove(int pitIndex) {
         if (!gameStarted || gameOver)
             return false;
@@ -105,6 +128,10 @@ public class MancalaModel {
         return true;
     }
 
+    /**
+     * undo function to undo a player's move
+     * @return true if undo was done, false otherwise
+     */
     public boolean undo() {
         if (!canUndo || undoCountThisTurn[previousPlayer] >= 3)
             return false;
@@ -116,6 +143,12 @@ public class MancalaModel {
         return true;
     }
 
+    /**
+     * checks if a pit is either player A or player B
+     * @param index index of pit
+     * @param player either player A or player B
+     * @return true if it is the player's pit, false otherwise
+     */
     private boolean isOwnPit(int index, int player) {
         if (player == 0)
             return index >= 0 && index < MANCALA_A;
@@ -124,9 +157,19 @@ public class MancalaModel {
     }
 
 
+    /**
+     * gives the index of a pit on the opposite side
+     * @param index of pit
+     * @return index of opposite pit
+     */
     private int opposite(int index) {
         return 12 - index;
     }
+
+    /**
+     * checks if a player has won
+     * @return true if a player won, false otherwise
+     */
     private boolean checkGameOver() {
         boolean aSideEmpty = true;
         for (int i = 0; i < MANCALA_A; i++)
@@ -155,25 +198,59 @@ public class MancalaModel {
         }
         return false;
     }
+
+    /**
+     * gets current board
+     * @return int[] of board
+     */
     public int[] getBoard(){
         return board;
     }
+
+    /**
+     * gets current player
+     * @return int of player
+     */
     public int getCurrentPlayer(){
         return currentPlayer;
     }
+
+    /**
+     * gets if game started
+     * @return boolean true if game started, false otherwise
+     */
     public boolean isGameStarted(){
         return gameStarted;
     }
+
+    /**
+     * gets if game is over
+     * @return boolean true if game is over, false otherwise
+     */
     public boolean isGameOver(){
         return gameOver;
     }
+
+    /**
+     * gets if player can undo
+     * @return boolean true if can undo, false otherwise
+     */
     public boolean canUndo(){
         return canUndo && undoCountThisTurn[previousPlayer] < 3;
     }
+
+    /**
+     * gets undo count
+     * @return int count of undos done
+     */
     public int getUndoCountThisTurn() {
         return undoCountThisTurn[previousPlayer];
     }
 
+    /**
+     * gets winner of mancala
+     * @return int the player that won
+     */
     public int getWinner() {
         if (!gameOver) return -1;
         if (board[MANCALA_A] > board[MANCALA_B]) return 0;

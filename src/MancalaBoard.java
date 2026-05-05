@@ -4,7 +4,10 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-
+/**
+ * The MancalaBoard class is a Swing component responsible for rendering
+ * the Mancala game board and handling user interaction.
+ */
 public class MancalaBoard extends JPanel implements ChangeListener {
     private MancalaModel model;
     private BoardStyle style;
@@ -22,6 +25,11 @@ public class MancalaBoard extends JPanel implements ChangeListener {
     private Rectangle[] pitRects = new Rectangle[14];
     private int hoveredPit = -1;
 
+    /**
+     * Constructs a MancalaBoard UI component.
+     * @param model the game model to observe
+     * @param style the visual style used for rendering
+     */
     public MancalaBoard(MancalaModel model, BoardStyle style) {
         this.model = model;
         this.style = style;
@@ -43,14 +51,26 @@ public class MancalaBoard extends JPanel implements ChangeListener {
         });
     }
 
+    /**
+     * Updates the board's visual style and repaints it.
+     * @param s the new BoardStyle to apply
+     */
     public void refreshStyle(BoardStyle s) {
         this.style = s; repaint();
     }
 
+    /**
+     * Called when the model changes. Triggers a repaint of the board.
+     * @param e the change event
+     */
     @Override public void stateChanged(ChangeEvent e) {
         repaint();
     }
 
+    /**
+     * Paints the Mancala board, including pits, mancalas, and labels.
+     * @param g the Graphics context
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -100,6 +120,9 @@ public class MancalaBoard extends JPanel implements ChangeListener {
         g2.dispose();
     }
 
+    /**
+     * Computes and updates the layout rectangles for all pits and mancalas.
+     */
     private void computeLayout() {
         int totalW = getWidth();
         int totalH = getHeight();
@@ -125,6 +148,12 @@ public class MancalaBoard extends JPanel implements ChangeListener {
             pitRects[bIdx] = new Rectangle(x, topY, PIT_W, PIT_H);
         }
     }
+
+    /**
+     * Handles mouse click events on the board.
+     * @param mx x-coordinate of the click
+     * @param my y-coordinate of the click
+     */
     private void handleClick(int mx, int my) {
         if (!model.isGameStarted() || model.isGameOver()) return;
         int pit = pitAt(mx, my);
@@ -134,6 +163,12 @@ public class MancalaBoard extends JPanel implements ChangeListener {
         }
     }
 
+    /**
+     * Determines which pit (if any) is located at the given coordinates.
+     * @param mx x-coordinate
+     * @param my y-coordinate
+     * @return pit index (0–13), or -1 if none
+     */
     private int pitAt(int mx, int my) {
         computeLayout();
         for (int i = 0; i < 14; i++)

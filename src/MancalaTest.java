@@ -4,7 +4,10 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-
+/**
+ * MancalaTest is the main driver class for the Mancala game.
+ * It starts the Swing application on the Event Dispatch Thread.
+ */
 public class MancalaTest {
     public static void main(String[] args) {
 
@@ -12,6 +15,11 @@ public class MancalaTest {
     }
 }
 
+/**
+ * GameWindow represents the main application window for the Mancala game.
+ * It manages the setup screen, game screen, board style selection,
+ * stone selection, undo controls, and game-over dialog.
+ */
 class GameWindow extends JFrame {
 
     private final MancalaModel model;
@@ -24,6 +32,9 @@ class GameWindow extends JFrame {
     private JLabel statusLabel;
     private JButton undoButton;
 
+    /**
+     * Constructs the main game window and initializes the UI.
+     */
     GameWindow() {
         model  = new MancalaModel();
         styles = new BoardStyle[]{ new ClassicStyle(), new NeonStyle() };
@@ -44,6 +55,12 @@ class GameWindow extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    
+    /**
+     * Builds the setup screen where the user chooses board style
+     * and number of stones per pit.
+     * @return the completed setup panel
+     */
     private JPanel buildSetupPanel() {
         JPanel root = new JPanel(new BorderLayout(0, 0));
         root.setBackground(new Color(22, 22, 42));
@@ -129,6 +146,12 @@ class GameWindow extends JFrame {
         return root;
     }
 
+    /**
+     * Builds the main game screen, including the Mancala board,
+     * undo button, status label, and new game button.
+     *
+     * @return the completed game panel
+     */
     private JPanel buildGamePanel() {
         JPanel root = new JPanel(new BorderLayout(0, 0));
         root.setBackground(new Color(15, 15, 30));
@@ -188,6 +211,10 @@ class GameWindow extends JFrame {
         return root;
     }
 
+    /**
+     * Updates the status label with the current player's turn
+     * and undo availability.
+     */
     private void updateStatus() {
         if (!model.isGameStarted() || model.isGameOver()) {
             statusLabel.setText("");
@@ -200,6 +227,10 @@ class GameWindow extends JFrame {
         statusLabel.setText(player + "'s turn" + undoStr);
     }
 
+    /**
+     * Displays the game-over dialog showing the winner and final scores.
+     * Allows the user to either start a new game or quit.
+     */
     private void showGameOver() {
         int winner = model.getWinner();
         int[] board  = model.getBoard();
@@ -220,6 +251,13 @@ class GameWindow extends JFrame {
         }
     }
 
+    /**
+     * Creates a centered label with the specified text, color, and font size.
+     * @param text label text
+     * @param color label text color
+     * @param size font size
+     * @return the configured JLabel
+     */
     private JLabel centeredLabel(String text, Color color, int size) {
         JLabel lbl = new JLabel(text, SwingConstants.CENTER);
         lbl.setFont(new Font("SansSerif", Font.BOLD, size));
@@ -228,6 +266,13 @@ class GameWindow extends JFrame {
         return lbl;
     }
 
+    /**
+     * Creates a styled toggle button used on the setup screen.
+     * @param text button text
+     * @param w preferred button width
+     * @param h preferred button height
+     * @return the configured JToggleButton
+     */
     private JToggleButton styledToggle(String text, int w, int h) {
         JToggleButton btn = new JToggleButton(text);
         btn.setFont(new Font("SansSerif", Font.BOLD, 14));

@@ -1,5 +1,10 @@
 import java.awt.*;
 
+/**
+ * ClassicStyle is a BoardStyle implementation that renders the Mancala board
+ * with a traditional wooden appearance. It uses warm earth tones and simple
+ * shapes to resemble a classic physical Mancala board.
+ */
 public class ClassicStyle implements BoardStyle {
 
     private static final Color BOARD_COLOR = new Color(101, 67, 33);
@@ -42,6 +47,20 @@ public class ClassicStyle implements BoardStyle {
     @Override public Font getMancalaFont(){
         return new Font("Serif", Font.BOLD, 22);
     }
+
+    /**
+     * Draws a single pit using a classic oval wooden style.
+     * Includes optional highlighting for active player and hover effects.
+     * @param g2 the graphics context
+     * @param x x-coordinate of the pit
+     * @param y y-coordinate of the pit
+     * @param w width of the pit
+     * @param h height of the pit
+     * @param stones number of stones in the pit
+     * @param label pit label (e.g., "A1", "B3")
+     * @param isCurrentPlayerPit true if pit belongs to active player
+     * @param isHovered true if mouse is hovering over this pit
+     */
     @Override
     public void drawPit(Graphics2D g2, int x, int y, int w, int h, int stones, String label, boolean isCurrentPlayerPit, boolean isHovered) {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -67,6 +86,18 @@ public class ClassicStyle implements BoardStyle {
         g2.drawString(label, lx, y + h + 14);
     }
 
+
+    /**
+     * Draws a mancala (store pit) with a rounded rectangular wooden style.
+     * Displays the stone count and decorative stones.
+     * @param g2 graphics context
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param w width
+     * @param h height
+     * @param stones number of stones
+     * @param label player label ("A" or "B")
+     */
     @Override
     public void drawMancala(Graphics2D g2, int x, int y, int w, int h, int stones, String label) {
 
@@ -92,6 +123,16 @@ public class ClassicStyle implements BoardStyle {
 
         drawStonesInMancala(g2, x, y, w, h, stones);
     }
+
+    /**
+     * Draws stones inside a regular pit using predefined layout offsets.
+     * @param g2 graphics context
+     * @param x pit x-coordinate
+     * @param y pit y-coordinate
+     * @param w pit width
+     * @param h pit height
+     * @param stones number of stones
+     */
     private void drawStonesInPit(Graphics2D g2, int x, int y, int w, int h, int stones) {
         if (stones == 0)
             return;
@@ -109,6 +150,15 @@ public class ClassicStyle implements BoardStyle {
         }
     }
 
+    /**
+     * Draws a compact grid of stones inside a mancala for visual representation.
+     * @param g2 graphics context
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param w width
+     * @param h height
+     * @param count total number of stones
+     */
     private void drawStonesInMancala(Graphics2D g2, int x, int y, int w, int h, int count) {
         if (count == 0) return;
         int r = 5;
@@ -131,6 +181,13 @@ public class ClassicStyle implements BoardStyle {
         }
     }
 
+    
+    /**
+     * Returns predefined offsets for positioning stones inside a pit
+     * based on the number of stones.
+     * @param stones number of stones
+     * @return array of (x,y) offsets
+     */
     static int[][] getStonePitOffsets(int stones) {
         switch (stones) {
             case 1: return new int[][]{{0,0}};

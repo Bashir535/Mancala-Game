@@ -1,8 +1,11 @@
 import java.awt.*;
 
-
+/**
+ * NeonStyle is a BoardStyle implementation that renders the Mancala board
+ * with a neon, arcade-inspired aesthetic using bright glowing colors and
+ * high-contrast visuals.
+ */
 public class NeonStyle implements BoardStyle {
-
     private static final Color BOARD_COLOR = new Color(15, 15, 30);
     private static final Color PIT_COLOR = new Color(20, 20, 50);
     private static final Color PIT_BORDER = new Color(0, 200, 255);
@@ -14,37 +17,49 @@ public class NeonStyle implements BoardStyle {
     private static final Color ACTIVE_BORDER = new Color(255, 220, 0);
     private static final Color MANCALA_BORDER = new Color(160, 0, 255);
 
+    /**
+     * Returns the display name of this style.
+     * @return the style name
+     */
     @Override public String getStyleName() {
         return "Neon Arcade";
     }
-    @Override public Color getBoardColor(){
-        return BOARD_COLOR;
-    }
-    @Override public Color getPitColor(){
-        return PIT_COLOR;
-    }
-    @Override public Color getPitBorderColor(){
-        return PIT_BORDER;
-    }
-    @Override public Color getMancalaColor(){
-        return MANCALA_COLOR;
-    }
-    @Override public Color getStoneColor(){
-        return STONE_COLOR;
-    }
-    @Override public Color getStoneAccentColor(){
-        return STONE_ACCENT;
-    }
-    @Override public Color getLabelColor(){
-        return LABEL_COLOR;
-    }
-    @Override public Font getLabelFont(){
-        return new Font("Monospaced", Font.BOLD, 12);
-    }
-    @Override public Font getMancalaFont(){
-        return new Font("Monospaced", Font.BOLD, 20);
-    }
 
+    /** @return board background color */
+    @Override public Color getBoardColor() { return BOARD_COLOR; }
+
+    /** @return pit fill color */
+    @Override public Color getPitColor() { return PIT_COLOR; }
+
+    /** @return pit border color */
+    @Override public Color getPitBorderColor() { return PIT_BORDER; }
+
+    /** @return mancala fill color */
+    @Override public Color getMancalaColor() { return MANCALA_COLOR; }
+
+    /** @return primary stone color */
+    @Override public Color getStoneColor() { return STONE_COLOR; }
+
+    /** @return stone highlight color */
+    @Override public Color getStoneAccentColor() { return STONE_ACCENT; }
+
+    /** @return label/text color */
+    @Override public Color getLabelColor() { return LABEL_COLOR; }
+
+    
+    /**
+     * Draws a single pit with neon styling, including glow effects,
+     * border highlights, and stones.
+     * @param g2 the graphics context
+     * @param x the x-coordinate of the pit
+     * @param y the y-coordinate of the pit
+     * @param w the width of the pit
+     * @param h the height of the pit
+     * @param stones number of stones in the pit
+     * @param label pit label (e.g., "A1", "B3")
+     * @param isCurrentPlayerPit whether this pit belongs to the active player
+     * @param isHovered whether the mouse is hovering over this pit
+     */
     @Override
     public void drawPit(Graphics2D g2, int x, int y, int w, int h, int stones, String label, boolean isCurrentPlayerPit, boolean isHovered) {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -71,6 +86,19 @@ public class NeonStyle implements BoardStyle {
         g2.drawString(label, x + (w - fm.stringWidth(label)) / 2, y + h + 14);
     }
 
+
+    /**
+     * Draws a mancala (store pit) with neon styling, including glow borders,
+     * stone count display, and decorative stones.
+     *
+     * @param g2 the graphics context
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     * @param w width of the mancala
+     * @param h height of the mancala
+     * @param stones number of stones in the mancala
+     * @param label player label ("A" or "B")
+     */
     @Override
     public void drawMancala(Graphics2D g2, int x, int y, int w, int h, int stones, String label) {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -102,6 +130,16 @@ public class NeonStyle implements BoardStyle {
 
         drawNeonStonesInMancala(g2, x, y, w, h, stones);
     }
+
+    /**
+     * Draws neon-style stones inside a regular pit using offsets.
+     * @param g2 graphics context
+     * @param x pit x-coordinate
+     * @param y pit y-coordinate
+     * @param w pit width
+     * @param h pit height
+     * @param stones number of stones
+     */
     private void drawNeonStones(Graphics2D g2, int x, int y, int w, int h, int stones) {
         if (stones == 0) return;
         int cx = x + w / 2;
@@ -121,6 +159,15 @@ public class NeonStyle implements BoardStyle {
         }
     }
 
+    /**
+     * Draws a compact grid of stones inside a mancala for visual effect.
+     * @param g2 graphics context
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param w width
+     * @param h height
+     * @param count total number of stones
+     */
     private void drawNeonStonesInMancala(Graphics2D g2, int x, int y, int w, int h, int count) {
         if (count == 0) return;
         int r = 5;
